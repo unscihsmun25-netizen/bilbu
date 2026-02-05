@@ -50,23 +50,48 @@ function updateStars() {
 
 const button = document.getElementById("valentinesButton");
 
+// Function to create a single heart
+function createFloatingHeart() {
+    const heart = document.createElement('div');
+    heart.innerHTML = '💗';
+    heart.style.position = 'fixed';
+    heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.top = window.innerHeight + 'px';
+    heart.style.pointerEvents = 'none';
+    heart.style.zIndex = '9999';
+    heart.style.transition = 'all ' + (Math.random() * 3 + 3) + 's ease-out';
+    
+    document.body.appendChild(heart);
+    
+    // Animate heart upward
+    setTimeout(() => {
+        heart.style.top = '-100px';
+        heart.style.left = (parseFloat(heart.style.left) + (Math.random() - 0.5) * 200) + 'px';
+        heart.style.opacity = '0';
+        heart.style.transform = 'rotate(' + (Math.random() * 360) + 'deg) scale(' + (Math.random() * 2) + ')';
+    }, 10);
+    
+    // Remove heart after animation
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
 button.addEventListener("click", () => {
   if (button.textContent === "Click Me! ❤") {
-    button.textContent = "loading...";
-    fetch('send_mail.php')
-      .then(response => {
-        if (response.ok) {
-          button.textContent = "Check Your Email 🙃";
-        } else {
-          console.error('Failed to send email');
-          button.textContent = "Error 😞";
-        }
-      })
-      .catch(error => {
-        // Handle network errors or other issues
-        console.error('Error:', error);
-        button.textContent = "Error 😞";
-      });
+    button.textContent = "I love you Azza! 💗";
+    
+    // Create waves of hearts
+    for (let wave = 0; wave < 20; wave++) {
+        setTimeout(() => {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createFloatingHeart();
+                }, i * 10);
+            }
+        }, wave * 200);
+    }
   }
 });
 
