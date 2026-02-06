@@ -90,6 +90,12 @@ button.addEventListener("click", () => {
         photo.style.transform = "translate(-50%, -50%) scale(1)";
     }, 10);
     
+    // Start poem credits scrolling after photo appears
+    setTimeout(() => {
+        const poem = document.getElementById('poemCredits');
+        poem.classList.add('scrolling');
+    }, 1000);
+    
     // Create waves of hearts - reduced from 1000 to 300 for better performance
     for (let wave = 0; wave < 15; wave++) {
         setTimeout(() => {
