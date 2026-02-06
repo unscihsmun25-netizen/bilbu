@@ -169,10 +169,11 @@ button.addEventListener("click", () => {
                 poemEnded = true;
                 starExplosionStartTime = Date.now();
                 
-                // Hide photo and poem before explosion
-                photo.style.opacity = '0';
+                // Hide photo, poem, and overlay before explosion
+                photo.style.display = 'none';
                 const poem = document.getElementById('poemCredits');
-                poem.style.opacity = '0';
+                poem.style.display = 'none';
+                dimOverlay.classList.remove('active');
                 
                 setTimeout(() => {
                     typewriterStartTime = Date.now();
