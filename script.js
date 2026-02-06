@@ -82,9 +82,20 @@ button.addEventListener("click", () => {
   if (button.textContent === "yes (i love you azza)") {
     button.style.display = "none";
     
-    // Play the song
+    // Play the song with fade in
     const song = document.getElementById('loveSong');
+    song.volume = 0;
     song.play();
+    
+    // Fade in the music over 3 seconds
+    let fadeInInterval = setInterval(() => {
+        if (song.volume < 0.95) {
+            song.volume = Math.min(song.volume + 0.05, 1);
+        } else {
+            song.volume = 1;
+            clearInterval(fadeInInterval);
+        }
+    }, 150);
     
     // Show the couple photo
     const photo = document.getElementById('couplePhoto');
@@ -104,6 +115,20 @@ button.addEventListener("click", () => {
             const poem = document.getElementById('poemCredits');
             poem.classList.add('scrolling');
         }, 500);
+        
+        // Fade out music after 40 seconds (before poem ends)
+        setTimeout(() => {
+            let fadeOutInterval = setInterval(() => {
+                if (song.volume > 0.05) {
+                    song.volume = Math.max(song.volume - 0.05, 0);
+                } else {
+                    song.volume = 0;
+                    clearInterval(fadeOutInterval);
+                    song.pause();
+                }
+            }, 150);
+        }, 35000); // Start fade out after 35 seconds
+        
     }, 5000);
     
     // Create waves of hearts
