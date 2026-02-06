@@ -85,17 +85,28 @@ button.addEventListener("click", () => {
     // Play the song with fade in
     const song = document.getElementById('loveSong');
     song.volume = 0;
-    song.play();
     
-    // Fade in the music over 3 seconds
-    let fadeInInterval = setInterval(() => {
-        if (song.volume < 0.95) {
-            song.volume = Math.min(song.volume + 0.05, 1);
-        } else {
+    // Try to play with error handling
+    const playPromise = song.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            // Autoplay started - fade in the music over 3 seconds
+            let fadeInInterval = setInterval(() => {
+                if (song.volume < 0.95) {
+                    song.volume = Math.min(song.volume + 0.05, 1);
+                } else {
+                    song.volume = 1;
+                    clearInterval(fadeInInterval);
+                }
+            }, 150);
+        }).catch(error => {
+            // Autoplay was prevented - play at full volume instead
+            console.log("Autoplay prevented, playing at full volume");
             song.volume = 1;
-            clearInterval(fadeInInterval);
-        }
-    }, 150);
+            song.play();
+        });
+    }
     
     // Show the couple photo
     const photo = document.getElementById('couplePhoto');
@@ -116,7 +127,7 @@ button.addEventListener("click", () => {
             poem.classList.add('scrolling');
         }, 500);
         
-        // Fade out music after 40 seconds (before poem ends)
+        // Fade out music after 35 seconds (before poem ends)
         setTimeout(() => {
             let fadeOutInterval = setInterval(() => {
                 if (song.volume > 0.05) {
@@ -127,7 +138,7 @@ button.addEventListener("click", () => {
                     song.pause();
                 }
             }, 150);
-        }, 35000); // Start fade out after 35 seconds
+        }, 35000);
         
     }, 5000);
     
