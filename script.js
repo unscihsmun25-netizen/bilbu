@@ -82,6 +82,10 @@ button.addEventListener("click", () => {
   if (button.textContent === "yes (i love you azza)") {
     button.style.display = "none";
     
+    // Play the song
+    const song = document.getElementById('loveSong');
+    song.play();
+    
     // Show the couple photo
     const photo = document.getElementById('couplePhoto');
     photo.style.display = "block";
@@ -90,13 +94,19 @@ button.addEventListener("click", () => {
         photo.style.transform = "translate(-50%, -50%) scale(1)";
     }, 10);
     
-    // Start poem credits scrolling after photo appears
+    // After 5 seconds, dim the screen and start poem
     setTimeout(() => {
-        const poem = document.getElementById('poemCredits');
-        poem.classList.add('scrolling');
-    }, 1000);
+        const dimOverlay = document.getElementById('dimOverlay');
+        dimOverlay.classList.add('active');
+        
+        // Start poem credits scrolling after dimming
+        setTimeout(() => {
+            const poem = document.getElementById('poemCredits');
+            poem.classList.add('scrolling');
+        }, 500);
+    }, 5000);
     
-    // Create waves of hearts - reduced from 1000 to 300 for better performance
+    // Create waves of hearts
     for (let wave = 0; wave < 15; wave++) {
         setTimeout(() => {
             for (let i = 0; i < 20; i++) {
@@ -228,9 +238,9 @@ function drawText() {
         context.fillStyle = `rgba(237, 240, 218, ${opacity})`;
 
         if (window.innerWidth < 600) {
-            drawTextWithLineBreaks(["I love you so much azza, more than", "all the time and space in the universe can contain"], canvas.width / 2, canvas.height / 2, fontSize, lineHeight);
+            drawTextWithLineBreaks(["I love you so much azza, more than", "all the time and space the universe can contain"], canvas.width / 2, canvas.height / 2, fontSize, lineHeight);
         } else {
-            context.fillText("I love you so much azza, more than all the time and space in the universe can contain", canvas.width/2, canvas.height/2);
+            context.fillText("I love you so much azza, more than all the time and space the universe can contain", canvas.width/2, canvas.height/2);
         }
 
         opacity = opacity + 0.01;
